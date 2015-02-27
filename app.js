@@ -30,11 +30,11 @@ var main = function(){
 //prey a head start.
     function Prey(focus, name, strength, speed){
       Animal.call(this, focus, name, strength, speed);
-      this.position = 5;
+      this.position = 4;
     };
 //These are our variables.
-  var turtle = new Prey(7,"turtle",10,2),
-      rabbit = new Prey(3,"rabbit",5,9),
+  var turtle = new Prey(9,"turtle",10,2),
+      rabbit = new Prey(3,"rabbit",4,8),
       shark = new Predator(6,"shark",1,3),
       distance = 30,
       allReport = function(){
@@ -47,18 +47,22 @@ var main = function(){
   $('.rabbit').hide();
   $('.turtle').hide();
   $('.predator').hide();
-  $('.sharkDeadRabbit').hide();
-  $('.sharkDeadTurtle').hide();
+  $('.sharkKilledRabbit').hide();
+  $('.sharkKilledTurtle').hide();
  
 //Every time the button is clicked on the html page, the animals advance.
 //They may also do something depending on relative position.
 $('.button').click(function() {
 //If either the rabbit or the turtle is dead we only want to see 
 //their picture once - not for every subsequent click.
-  $('.sharkDeadRabbit').hide();
-  $('.sharkDeadTurtle').hide();
+  $('.sharkKilledRabbit').hide();
+  $('.sharkKilledTurtle').hide();
 //this advances the animal.
   turtle.run();
+  $('.turtleRace').animate({
+    width: "193px"
+  },
+  300);
   rabbit.run();
   shark.run();
 //If the turtle or the rabbit has passed the distance then they win.
@@ -68,8 +72,8 @@ $('.button').click(function() {
   } else if(turtle.position>distance) {
     $('.turtle').show();
     $('.button').hide();
-//If the shark kills both the rabbit and the turtle then the skar wins.
-  } else if((turtle.position == "dead") && (rabbit.position == "dead")) {
+//If the shark kills both the rabbit and the turtle then the shark wins.
+  } else if((turtle.position === "dead") && (rabbit.position === "dead")) {
     $('.predator').show();
     $('.button').hide();
 //If the rabbit is dead and the shark is further ahead than the turtle, 
@@ -116,7 +120,7 @@ $('.button').click(function() {
       } else {
         rabbit.position = "dead";
         allReport();
-        $('.sharkDeadRabbit').show();
+        $('.sharkKilledRabbit').show();
       }
 //If the shark is ahead of the turtle and not the rabbit then it attacks the turtle.
   } else if((shark.position>=turtle.position) && (shark.position<rabbit.position)) {
@@ -129,7 +133,7 @@ $('.button').click(function() {
       } else {
         turtle.position = "dead";
         allReport();
-        $('.sharkDeadTurtle').show();
+        $('.sharkKilledTurtle').show();
       }
 //If the shark is ahead of the turtle and the rabbit then it attacks them both.
   } else if((shark.position>=turtle.position) && (shark.position>=rabbit.position)){
